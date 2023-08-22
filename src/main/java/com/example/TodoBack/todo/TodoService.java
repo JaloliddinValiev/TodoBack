@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TodoService {
@@ -21,6 +22,20 @@ public class TodoService {
     }
 
     public void addNewPerson(Todo todo) {
-        System.out.println("Oyy my ");
+        Optional<Todo> todoOptional = todoRepository
+                .findTodoByNickname(todo.getNickname());
+
+        if (todoOptional.isPresent()) {
+            throw new IllegalStateException("nickname taken");
+        }
+        todoRepository.save(todo);
+    }
+
+    public boolean authenticate(String nickname, String password) {
+        Todo user = todoRepository.findByNickname(nickname);
+        if (user != null && user.getPassword().equals(password)) {
+            return true;
+        }
+        return false;
     }
 }

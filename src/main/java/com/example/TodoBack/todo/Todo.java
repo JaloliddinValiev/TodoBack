@@ -1,6 +1,6 @@
 package com.example.TodoBack.todo;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table
